@@ -551,14 +551,26 @@ class ClinicalimpressionHistory(models.Model):
     id = models.TextField(primary_key=True)
     txid = models.BigIntegerField()
     ts = models.DateTimeField(blank=True, null=True)
-    resource_type = models.TextField(blank=True, null=True)
     status = models.TextField()  # This field type is a guess.
+    resource_type = models.TextField(blank=True, null=True)
     resource = models.TextField()  # This field type is a guess.
 
     class Meta:
         managed = False
         db_table = 'clinicalimpression_history'
         unique_together = (('id', 'txid'),)
+
+class Clinicalmeasures(models.Model):
+    id = models.TextField(primary_key=True)
+    txid = models.BigIntegerField()
+    ts = models.DateTimeField(blank=True, null=True)
+    status = models.TextField()
+    resource_type = models.TextField(blank=True, null=True)
+    resource = JSONField()
+
+    class Meta:
+        managed = False
+        db_table = 'clinicalmeasures'
 
 
 class Codesystem(models.Model):
@@ -3303,7 +3315,7 @@ class Servicerequest(models.Model):
     ts = models.DateTimeField(blank=True, null=True)
     resource_type = models.TextField(blank=True, null=True)
     status = models.TextField()  # This field type is a guess.
-    resource = models.TextField()  # This field type is a guess.
+    resource = JSONField()  # This field type is a guess.
 
     class Meta:
         managed = False

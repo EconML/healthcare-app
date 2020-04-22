@@ -1,11 +1,14 @@
 <!-- books/templates/books/book_list.html -->
-<h1>All Conditions</h1>
+<h1>Hi {{request.user}}, here are all patients with Diabetes or Hypertension</h1>
 {% for condition in object_list %}
-<ul>
-  <li>ID: {{ condition.id  }}</li>
-  <li>Txid: {{ condition.txid }}</li>
-  <li>Timestamp: {{ condition.ts }}</li>
-  <li>resource_type: {{ condition.resource_type }}</li>
-  <li>status: {{ condition.status }}</li>
-  <li>resource: {{ condition.resource }}</li>
-</ul> {% endfor %}
+  {% if condition.resource.code.coding.[0].code=='44054006' OR condition.resource.code.coding.[0].code=='38341003' %}
+    <ul>
+      <li>ID: {{ condition.id  }}</li>
+      <li>Txid: {{ condition.txid }}</li>
+      <li>Timestamp: {{ condition.ts }}</li>
+      <li>resource_type: {{ condition.resource_type }}</li>
+      <li>status: {{ condition.status }}</li>
+      <li>resource: {{ condition.resource }}</li>
+    </ul>
+  {% endif %}
+{% endfor %}

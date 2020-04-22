@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #3rd Party
+    # 3rd-party apps
     'rest_framework',
 
     # Local
@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'healthcare_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fhirbase',
+        'NAME': 'fhirebase',
         'USER': 'postgres',
-        'PASSWORD': '8MYuHU48$@!',
-        'HOST' : 'localhost',
+        'PASSWORD': 'koko1988',
+        'HOST' : 'healthcare.c6t9xhayzybf.us-west-2.rds.amazonaws.com',
         'PORT' : '5432',
     }
 }
