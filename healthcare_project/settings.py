@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # Local
     'patient_manager.apps.PatientManagerConfig',
+    'frontend.apps.FrontendConfig',
 ]
 
 MIDDLEWARE = [

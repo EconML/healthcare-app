@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView
 from rest_framework import generics
+import requests
 
 from .models import Condition, Patient, Servicerequest, Clinicalmeasures
 from .serializers import ConditionSerializer, PatientSerializer, ServicerequestSerializer, ClinicalmeasuresSerializer

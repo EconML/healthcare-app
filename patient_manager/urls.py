@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views import ConditionListView, ConditionDetail, PatientList, PatientDetail, ServicerequestList, ServicerequestDetail, ClinicalmeasuresList, ClinicalmeasuresDetail
+from . import views
 
 urlpatterns = [
     path('condition/', ConditionListView.as_view(), name='condition_list'),
