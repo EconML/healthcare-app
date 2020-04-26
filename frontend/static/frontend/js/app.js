@@ -1,6 +1,5 @@
 // document ready function requires the page to be loaded before jquery
 $(document).ready(function () {
-	let columns = {};
 	//the below toggles the sidebar on click
 	$('.left-collapse').on('click', function () {
 		$('.sidebar').toggleClass('active');
@@ -8,11 +7,19 @@ $(document).ready(function () {
 	});
 });
 
-buildList()
+buildSidebarDropdowns()
 
-function buildList(){
-	var conditionList = document.getElementById('conditionList')
-	conditionList.innerHTML = ''
+
+
+
+
+
+
+
+
+function buildSidebarDropdowns(){
+	var conditionListWrapper = document.getElementById('conditionListWrapper')
+	conditionListWrapper.innerHTML = ''
 	var url = 'http://localhost:8000/api/v1/clinicalmeasures/'
 
 	fetch(url)
@@ -21,29 +28,30 @@ function buildList(){
 		console.log('Data:', data)
 
 		var clinicalmeasureconditions = data
+		// for each row in the Clinical Measure table create a list item
 		for(var i in clinicalmeasureconditions){
 			var condition = `
 					<li>
-						<a href="#diabeticSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">${clinicalmeasureconditions[i].id}</a>
-						<ul class="collapse list-unstyled" id="diabeticSubmenu">
-							<li>
-								<a href="#">Diabetes HgbA1c testing</a>
-							</li>
-							<li>
-								<a href="#">Diabetes Retinal Eye Exam</a>
-							</li>
-							<li>
-								<a href="#">Diabetes Foot Exam</a>
-							</li>
+						<a href="#${clinicalmeasureconditions[i].id}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">${clinicalmeasureconditions[i].id.toUpperCase()}</a>
+						<ul class="collapse list-unstyled" id="${clinicalmeasureconditions[i].id}">
 						</ul>
 					</li>
 			`
+			conditionListWrapper.innerHTML += condition
 
-			conditionList.innerHTML += condition
+			var conditionListItem = document.getElementById(clinicalmeasureconditions[i].id)
+			// for each clinical measure pertaining to this chronic condition create a nested list item
+			for(var j in clinicalmeasureconditions[i].resource.clinicalMeasures){
+				var clinicalMeasure = `
+					<li>
+						<a href="#">${clinicalmeasureconditions[i].resource.clinicalMeasures[j].toUpperCase()}</a>
+					</li>
+				`
+
+				conditionListItem.innerHTML+=clinicalMeasure
+			}
 
 
-			console.log(clinicalmeasureconditions[i].id)
-			console.log(clinicalmeasureconditions[i].resource)
 
 		}
 	})
