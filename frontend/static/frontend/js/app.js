@@ -25,6 +25,8 @@ function populateTable(measures) {
         var serviceRequestList = data
 
 				var patientID = {}
+
+				var chartDataHyper = {'over systolic':0,'under systolic':0,'over diastolic':0,'under diastolic':0, 'total':0}
         //for each request create a row for that request
         for (var request in serviceRequestList) {
           // console.log(serviceRequestList[request].resource.subject.id)
@@ -53,6 +55,19 @@ function populateTable(measures) {
 							</tr>
 						`
               tableWrapper.innerHTML += tableRow
+
+							if(serviceRequestList[request].resource.measures.systolic > 140){
+								chartDataHyper['over systolic'] += 1
+							} else {
+								chartDataHyper['under systolic'] += 1
+							}
+
+							if(serviceRequestList[request].resource.measures.diastolic > 90){
+								chartDataHyper['over diastolic'] += 1
+							} else {
+								chartDataHyper['under diastolic'] += 1
+							}
+							chartDataHyper['total'] += 1
             }
           } else {
             	if(serviceRequestList[request].resource.disease === 'Diabetes') {
@@ -118,6 +133,59 @@ function populateTable(measures) {
 					}
 
 				}
+
+				if(measures[0] === 'systolic'){
+
+					var ctx = document.getElementById('myChart')
+					ctx.innerHTML = ''
+
+					var label = []
+					var dataset = []
+
+					var label = ['Hypertension Control Systolic <140', 'Hypertension Control Diastolic <90', 'Hypertension Control, <140/90 (18-85 y/o)']
+					var totProportion = 1-((chartDataHyper['over systolic'] + chartDataHyper['over diastolic'])/chartDataHyper['total'])
+					var sysProportion = chartDataHyper['under systolic'] / chartDataHyper['total']
+					var diaProportion = chartDataHyper['under diastolic'] / chartDataHyper['total']
+					var dataset = [sysProportion, diaProportion, totProportion]
+
+					var myChart = new Chart(ctx, {
+					        type: 'bar',
+					        data: {
+					            labels: label,
+					            datasets: [{
+					                label: 'hypertension control',
+					                data: dataset,
+					                backgroundColor: [
+					                    'rgba(255, 99, 132, 0.2)',
+					                    'rgba(54, 162, 235, 0.2)',
+					                    'rgba(255, 206, 86, 0.2)',
+					                    'rgba(75, 192, 192, 0.2)',
+					                    'rgba(153, 102, 255, 0.2)',
+					                    'rgba(255, 159, 64, 0.2)'
+					                ],
+					                borderColor: [
+					                    'rgba(255, 99, 132, 1)',
+					                    'rgba(54, 162, 235, 1)',
+					                    'rgba(255, 206, 86, 1)',
+					                    'rgba(75, 192, 192, 1)',
+					                    'rgba(153, 102, 255, 1)',
+					                    'rgba(255, 159, 64, 1)'
+					                ],
+					                borderWidth: 1
+					            }]
+					        },
+					        options: {
+					            scales: {
+					                yAxes: [{
+					                    ticks: {
+					                        beginAtZero: true
+					                    }
+					                }]
+					            }
+					        }
+					    });
+				}
+
     })
 }
 
