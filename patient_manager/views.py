@@ -7,7 +7,7 @@ from .models import Condition, Patient, Servicerequest, Clinicalmeasures
 from .serializers import ConditionSerializer, PatientSerializer, ServicerequestSerializer, ClinicalmeasuresSerializer
 
 class ClinicalmeasuresList(generics.ListCreateAPIView):
-    queryset = Clinicalmeasures.objects.all()
+    queryset = Clinicalmeasures.objects.all().order_by('id')
     serializer_class = ClinicalmeasuresSerializer
 
 class ClinicalmeasuresDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -31,7 +31,7 @@ class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PatientSerializer
 
 class ServicerequestList(generics.ListCreateAPIView):
-    queryset = Servicerequest.objects.all()
+    queryset = Servicerequest.objects.order_by('resource__subject__id')
     serializer_class = ServicerequestSerializer
 
 class ServicerequestDetail(generics.RetrieveUpdateDestroyAPIView):
