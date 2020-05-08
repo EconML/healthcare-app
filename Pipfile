@@ -9,6 +9,8 @@ verify_ssl = true
 django = "*"
 psycopg2 = "*"
 djangorestframework = "*"
+django-rest-auth = "==0.9.5"
+django-allauth = "==0.40.0"
 
 [requires]
 python_version = "3.7"
